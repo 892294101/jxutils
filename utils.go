@@ -13,11 +13,11 @@ func GetProgramHome() (h string, err error) {
 	file, _ := exec.LookPath(os.Args[0])
 	ExecFilePath, _ := filepath.Abs(file)
 	var dir string
-	execFileSlice := strings.Split(ExecFilePath, `\`)
-	HomeDirectory := execFileSlice[:len(execFileSlice)-2]
 	osName := runtime.GOOS
 	switch osName {
 	case "windows":
+		execfileslice := strings.Split(ExecFilePath, `\`)
+		HomeDirectory := execfileslice[:len(execfileslice)-2]
 		for i, v := range HomeDirectory {
 			if v != "" {
 				if i > 0 {
@@ -28,6 +28,8 @@ func GetProgramHome() (h string, err error) {
 			}
 		}
 	case "linux", "darwin":
+		execfileslice := strings.Split(ExecFilePath, "/")
+		HomeDirectory := execfileslice[:len(execfileslice)-2]
 		for _, v := range HomeDirectory {
 			if v != "" {
 				dir += `/` + v
