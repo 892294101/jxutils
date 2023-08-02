@@ -2,6 +2,7 @@ package jxutils
 
 import (
 	"github.com/pkg/errors"
+	"go.mongodb.org/mongo-driver/bson"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -43,4 +44,13 @@ func GetProgramHome() (h string, err error) {
 		return "", errors.Errorf("get program home directory failed: %s", dir)
 	}
 	return dir, nil
+}
+
+func JsonStr2Bson(str string) (interface{}, error) {
+	var want interface{}
+	err := bson.UnmarshalExtJSON([]byte(str), true, &want)
+	if err != nil {
+		return nil, err
+	}
+	return want, nil
 }
