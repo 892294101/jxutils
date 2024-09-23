@@ -14,6 +14,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+	"time"
 )
 
 func GetProgramHome() (h string, err error) {
@@ -113,23 +114,17 @@ func ToHash(data string) uint32 {
 	return hv.Sum32()
 }
 
-func ToWeek(data string) string {
-	switch data {
-	case "1":
-		return "周一"
-	case "2":
-		return "周二"
-	case "3":
-		return "周三"
-	case "4":
-		return "周四"
-	case "5":
-		return "周五"
-	case "6":
-		return "周六"
-	case "0":
-		return "周日"
-	default:
-		return "未知"
+func ToWeek(str string) string {
+	t, _ := time.Parse(time.DateTime, str)
+	weekday := t.Weekday()
+	weekdayMap := map[time.Weekday]string{
+		time.Sunday:    "星期日",
+		time.Monday:    "星期一",
+		time.Tuesday:   "星期二",
+		time.Wednesday: "星期三",
+		time.Thursday:  "星期四",
+		time.Friday:    "星期五",
+		time.Saturday:  "星期六",
 	}
+	return weekdayMap[weekday]
 }
